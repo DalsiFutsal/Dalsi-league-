@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیش‌بینی بازی‌های فوتسال دلسی</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>به پیش‌بینی بازی‌های فوتسال دلسی خوش آمدید!</h1>
+        </header>
+        <section class="signup">
+            <h2>ثبت‌نام</h2>
+            <p>برای پیش‌بینی و کسب امتیاز، لطفاً شماره موبایل خود را وارد کنید:</p>
+            <input type="text" id="phoneNumber" placeholder="شماره موبایل">
+            <button onclick="registerUser()">ثبت‌نام و پرداخت</button>
+            <p>هزینه ثبت‌نام: ۱۰,۰۰۰ تومان</p>
+        </section>
+        <section id="predictions" style="display:none;">
+            <h2>پیش‌بینی مسابقات مرحله گروهی</h2>
+            <div id="games">
+                <!-- بازی‌ها در اینجا نمایش داده می‌شوند -->
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    color: #4CAF50;
+}
+
+.signup {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#games {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.game {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}// script.js
+
+// کاربران ذخیره می‌شوند
+let users = [];
+let predictions = [];
+
+function registerUser() {
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    if (phoneNumber) {
+        alert("ثبت‌نام موفق بود! لطفا مبلغ را واریز کنید.");
+        document.getElementById("predictions").style.display = "block";
+        document.querySelector(".signup").style.display = "none";
+        users.push(phoneNumber);
+        showGames();
+    } else {
+        alert("لطفا شماره موبایل خود را وارد کنید.");
+    }
+}
+
+function showGames() {
+    const gamesContainer = document.getElementById("games");
+    const games = [
+        { group: 'A', team1: 'امید عقاب سیتار', team2: 'آینده سازان بمباسری' },
+        { group: 'A', team1: 'امید عقاب سیتار', team2: 'برادران آسایش' },
+        { group: 'A', team1: 'آینده سازان بمباسری', team2: 'برادران آسایش' },
+        // بازی‌های گروه‌های دیگر به صورت مشابه
+    ];
+
+    games.forEach(game => {
+        const gameElement = document.createElement("div");
+        gameElement.classList.add("game");
+        gameElement.innerHTML = `
+            <p><strong>گروه ${game.group}</strong></p>
+            <p>${game.team1} 🆚️ ${game.team2}</p>
+            <input type="number" placeholder="گل ${game.team1}" class="score-input" />
+            <input type="number" placeholder="گل ${game.team2}" class="score-input" />
+            <button onclick="submitPrediction('${game.team1}', '${game.team2}')">ثبت پیش‌بینی</button>
+        `;
+        gamesContainer.appendChild(gameElement);
+    });
+}
+
+function submitPrediction(team1, team2) {
+    // پردازش و ذخیره‌سازی پیش‌بینی کاربر برای هر بازی
+    alert(`پیش‌بینی شما برای بازی ${team1} و ${team2} ثبت شد!`);
+}
